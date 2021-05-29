@@ -1,10 +1,12 @@
 package xyz.matirbank.spring.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import xyz.matirbank.spring.entities.Enums.AccountType;
@@ -22,8 +24,13 @@ public class User {
     String password_hashed;
     AccountType account_type;
     Double balance;
+    
+    @OneToOne(targetEntity=Photo.class)
     Photo photo;
+    
+    @OneToOne(targetEntity=Identity.class)
     Identity identity;
+    
     Date balance_updated;
     Date date_created;
     Date date_updated;
@@ -54,6 +61,7 @@ public class User {
         this.phone = phone;
     }
 
+    @JsonIgnore
     public String getPassword_hashed() {
         return password_hashed;
     }
