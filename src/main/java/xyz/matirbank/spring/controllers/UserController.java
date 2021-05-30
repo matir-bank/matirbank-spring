@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.matirbank.spring.entities.User;
-import xyz.matirbank.spring.entities.UserRequest;
+import xyz.matirbank.spring.models.entities.User;
+import xyz.matirbank.spring.models.requests.UserCreateRequest;
+import xyz.matirbank.spring.models.responses.UserInfoResponse;
+import xyz.matirbank.spring.models.responses.base.BaseResponse;
 import xyz.matirbank.spring.services.UserService;
 
 @RestController
@@ -21,22 +23,40 @@ public class UserController {
     @Autowired
     UserService userService;
     
-    @PostMapping("/create")
-    public ResponseEntity<User> createUser(@RequestBody UserRequest userRequest) {
-        User userResponse = userService.createUser(userRequest);
-        return new ResponseEntity<>(userResponse, new HttpHeaders(), HttpStatus.OK);
+    @PostMapping("/login")
+    public ResponseEntity<BaseResponse<User>> loginUser(@RequestBody UserCreateRequest userRequest) {
+        User user = userService.createUser(userRequest);
+        return new ResponseEntity<>(
+                new BaseResponse<User>(200, user, null),
+                new HttpHeaders(), 
+                HttpStatus.OK);
     }
     
-    @GetMapping("/id/{id}")
-    public ResponseEntity<User> getUserByPhone(@PathVariable long id) {
-        User userResponse = userService.getUserById(id);
-        return new ResponseEntity<>(userResponse, new HttpHeaders(), HttpStatus.OK);
+    @PostMapping("/signup")
+    public ResponseEntity<BaseResponse<User>> createUser(@RequestBody UserCreateRequest userRequest) {
+        User user = userService.createUser(userRequest);
+        return new ResponseEntity<>(
+                new BaseResponse<User>(200, user, null),
+                new HttpHeaders(), 
+                HttpStatus.OK);
+    }
+    
+    @GetMapping("/hash/{hash}")
+    public ResponseEntity<BaseResponse<UserInfoResponse>> getUserByHash(@PathVariable String hash) {
+        User user = userService.getUserByHash(hash);
+        return new ResponseEntity<>(
+                new BaseResponse<UserInfoResponse>(200, UserInfoResponse.fromUser(user), null),
+                new HttpHeaders(), 
+                HttpStatus.OK);
     }
     
     @GetMapping("/phone/{phone}")
-    public ResponseEntity<User> getUserByPhone(@PathVariable String phone) {
-        User userResponse = userService.getUserByPhone(phone);
-        return new ResponseEntity<>(userResponse, new HttpHeaders(), HttpStatus.OK);
+    public ResponseEntity<BaseResponse<UserInfoResponse>> getUserByPhone(@PathVariable String phone) {
+        User user = userService.getUserByPhone(phone);
+        return new ResponseEntity<>(
+                new BaseResponse<UserInfoResponse>(200, UserInfoResponse.fromUser(user), null),
+                new HttpHeaders(), 
+                HttpStatus.OK);
     }
     
 }

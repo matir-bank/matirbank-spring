@@ -1,14 +1,15 @@
-package xyz.matirbank.spring.entities;
+package xyz.matirbank.spring.models.requests;
 
-import xyz.matirbank.spring.entities.Enums.AccountType;
+import xyz.matirbank.spring.models.Enums.AccountType;
 
-public class UserRequest {
+public class UserCreateRequest {
+    
     String name;
     String phone;
     String password;
     AccountType account_type;
     
-    public UserRequest(){}
+    public UserCreateRequest(){}
 
     public String getName() {
         return name;

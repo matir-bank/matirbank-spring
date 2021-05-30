@@ -1,14 +1,10 @@
 package xyz.matirbank.spring.services;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
-import xyz.matirbank.spring.entities.User;
-import xyz.matirbank.spring.entities.UserRequest;
+import xyz.matirbank.spring.models.entities.User;
+import xyz.matirbank.spring.models.requests.UserCreateRequest;
 import xyz.matirbank.spring.repositories.UserRepository;
 import xyz.matirbank.spring.utils.Commons;
 
@@ -19,15 +15,21 @@ public class UserService {
     UserRepository userRepository;
 
     public UserService() {}
+    
+    public User loginUser(String username, String password) {
+        String hashed_password = Commons.encodePassword(password);
+        User user = userRepository.loginUser(username, hashed_password);
+        return user;
+    }
 
-    public User createUser(UserRequest userRequest) {
+    public User createUser(UserCreateRequest userRequest) {
         User user = new User();
-
+        
         user.setName(userRequest.getName());
         user.setPhone(userRequest.getPhone());
         user.setAccount_type(userRequest.getAccount_type());
         user.setBalance(0.00d);
-
+        
         String hashed_password = Commons.encodePassword(userRequest.getPassword());
         user.setPassword_hashed(hashed_password);
 
@@ -37,8 +39,10 @@ public class UserService {
         user.setBalance_updated(date);
 
         User savedUser = userRepository.save(user);
+        String user_hash = Commons.makeIdHash(savedUser.getId());
+        savedUser.setHash(user_hash);
+        savedUser = userRepository.save(user);
 
-        savedUser.setPassword_hashed(null);
         return savedUser;
     }
 
@@ -54,12 +58,11 @@ public class UserService {
     }
 
     public User getUserByPhone(String phone) {
-        User userFound = userRepository.findUsersByPhone(phone);
-
-        if (userFound != null) {
-            return userFound;
-        } else {
-            return null;
-        }
+        return userRepository.findUserByPhone(phone);
     }
+    
+    public User getUserByHash(String hash) {
+        return userRepository.findUserByHash(hash);
+    }
+    
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package xyz.matirbank.spring.entities;
+package xyz.matirbank.spring.models;
 
 /**
  *
@@ -11,11 +11,11 @@ package xyz.matirbank.spring.entities;
  */
 public class Enums {
     
-    enum AccountType {
+    public enum AccountType {
         WALLET, AGENT, MERCHANT, SYSTEM;
     }
     
-    enum IdentityType {
+    public enum IdentityType {
         NATIONAL_ID, DRIVING_LICENSE, PASSPORT, BIRTH_CERTIFICATE
     }
 }

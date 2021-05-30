@@ -1,21 +1,24 @@
-package xyz.matirbank.spring.entities;
+package xyz.matirbank.spring.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import xyz.matirbank.spring.entities.Enums.AccountType;
+import xyz.matirbank.spring.models.Enums.AccountType;
 
 @Entity
 @Table(name = "user")
-@NamedQuery(name = "User.findByPhone", query = "SELECT u from User u where u.phone = ?1")
 public class User implements Serializable {
     
     @Id
@@ -24,15 +27,25 @@ public class User implements Serializable {
     
     String name;
     String phone;
+    
+    String hash;
+    
+    @JsonIgnore
     String password_hashed;
+    
     AccountType account_type;
     Double balance;
     
     @OneToOne(targetEntity=Photo.class)
     Photo photo;
     
-    @OneToOne(targetEntity=Identity.class)
-    Identity identity;
+    @OneToMany(
+        targetEntity=Identity.class,
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    @JoinColumn(name = "user_id")
+    List<Identity> identities = new ArrayList<>();
     
     Date balance_updated;
     Date date_created;
@@ -64,7 +77,14 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    @JsonIgnore
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
     public String getPassword_hashed() {
         return password_hashed;
     }
@@ -97,12 +117,12 @@ public class User implements Serializable {
         this.photo = photo;
     }
 
-    public Identity getIdentity() {
-        return identity;
+    public List<Identity> getIdentities() {
+        return identities;
     }
 
-    public void setIdentity(Identity identity) {
-        this.identity = identity;
+    public void setIdentities(List<Identity> identities) {
+        this.identities = identities;
     }
 
     public Date getBalance_updated() {
@@ -129,4 +149,5 @@ public class User implements Serializable {
         this.date_updated = date_updated;
     }
 
+    
 }

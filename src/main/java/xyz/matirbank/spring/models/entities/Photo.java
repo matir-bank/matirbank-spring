@@ -1,4 +1,4 @@
-package xyz.matirbank.spring.entities;
+package xyz.matirbank.spring.models.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -7,23 +7,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import xyz.matirbank.spring.entities.Enums.IdentityType;
 
 @Entity
-@Table(name = "identity")
-public class Identity implements Serializable {
+@Table(name = "photo")
+public class Photo implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
     
-    IdentityType type;
     String path;
     String url;
     Date date_created;
     Date date_updated;
     
-    public Identity() {}
+    public Photo() {}
 
     public long getId() {
         return id;
@@ -31,14 +29,6 @@ public class Identity implements Serializable {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public IdentityType getType() {
-        return type;
-    }
-
-    public void setType(IdentityType type) {
-        this.type = type;
     }
 
     public String getPath() {
