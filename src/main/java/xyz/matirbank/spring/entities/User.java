@@ -1,11 +1,13 @@
 package xyz.matirbank.spring.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -13,7 +15,8 @@ import xyz.matirbank.spring.entities.Enums.AccountType;
 
 @Entity
 @Table(name = "user")
-public class User {
+@NamedQuery(name = "User.findByPhone", query = "SELECT u from User u where u.phone = ?1")
+public class User implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

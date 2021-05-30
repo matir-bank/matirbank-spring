@@ -1,5 +1,6 @@
 package xyz.matirbank.spring.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +11,7 @@ import xyz.matirbank.spring.entities.Enums.IdentityType;
 
 @Entity
 @Table(name = "identity")
-public class Identity {
+public class Identity implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

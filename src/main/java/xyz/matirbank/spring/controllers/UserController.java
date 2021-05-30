@@ -27,6 +27,12 @@ public class UserController {
         return new ResponseEntity<>(userResponse, new HttpHeaders(), HttpStatus.OK);
     }
     
+    @GetMapping("/id/{id}")
+    public ResponseEntity<User> getUserByPhone(@PathVariable long id) {
+        User userResponse = userService.getUserById(id);
+        return new ResponseEntity<>(userResponse, new HttpHeaders(), HttpStatus.OK);
+    }
+    
     @GetMapping("/phone/{phone}")
     public ResponseEntity<User> getUserByPhone(@PathVariable String phone) {
         User userResponse = userService.getUserByPhone(phone);

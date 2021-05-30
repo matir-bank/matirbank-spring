@@ -1,6 +1,7 @@
 package xyz.matirbank.spring.services;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -17,8 +18,7 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public UserService() {
-    }
+    public UserService() {}
 
     public User createUser(UserRequest userRequest) {
         User user = new User();
@@ -54,18 +54,10 @@ public class UserService {
     }
 
     public User getUserByPhone(String phone) {
-        User user = new User();
-        user.setPhone(phone);
+        User userFound = userRepository.findUsersByPhone(phone);
 
-        ExampleMatcher matcher = ExampleMatcher.matching()
-                .withMatcher("phone", match -> match.startsWith());
-
-        Example<User> exampleUser = Example.of(user, matcher);
-
-        Optional<User> userResponse = userRepository.findOne(exampleUser);
-
-        if (userResponse.isPresent()) {
-            return userResponse.get();
+        if (userFound != null) {
+            return userFound;
         } else {
             return null;
         }
