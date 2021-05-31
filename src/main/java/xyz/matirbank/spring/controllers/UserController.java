@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.matirbank.spring.models.entities.User;
 import xyz.matirbank.spring.models.requests.UserCreateRequest;
+import xyz.matirbank.spring.models.requests.UserLoginRequest;
 import xyz.matirbank.spring.models.responses.UserInfoResponse;
 import xyz.matirbank.spring.models.responses.base.BaseResponse;
 import xyz.matirbank.spring.services.UserService;
@@ -24,8 +25,11 @@ public class UserController {
     UserService userService;
     
     @PostMapping("/login")
-    public ResponseEntity<BaseResponse<User>> loginUser(@RequestBody UserCreateRequest userRequest) {
-        User user = userService.createUser(userRequest);
+    public ResponseEntity<BaseResponse<User>> loginUser(@RequestBody UserLoginRequest request) {
+        User user = userService.loginUser(request);
+        if(user != null) {
+            
+        }
         return new ResponseEntity<>(
                 new BaseResponse<User>(200, user, null),
                 new HttpHeaders(), 
@@ -33,8 +37,8 @@ public class UserController {
     }
     
     @PostMapping("/signup")
-    public ResponseEntity<BaseResponse<User>> createUser(@RequestBody UserCreateRequest userRequest) {
-        User user = userService.createUser(userRequest);
+    public ResponseEntity<BaseResponse<User>> createUser(@RequestBody UserCreateRequest userCreateRequest) {
+        User user = userService.createUser(userCreateRequest);
         return new ResponseEntity<>(
                 new BaseResponse<User>(200, user, null),
                 new HttpHeaders(), 

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.matirbank.spring.models.entities.User;
 import xyz.matirbank.spring.models.requests.UserCreateRequest;
+import xyz.matirbank.spring.models.requests.UserLoginRequest;
 import xyz.matirbank.spring.repositories.UserRepository;
 import xyz.matirbank.spring.utils.Commons;
 
@@ -16,9 +17,9 @@ public class UserService {
 
     public UserService() {}
     
-    public User loginUser(String username, String password) {
-        String hashed_password = Commons.encodePassword(password);
-        User user = userRepository.loginUser(username, hashed_password);
+    public User loginUser(UserLoginRequest userLoginRequest) {
+        String hashed_password = Commons.encodePassword(userLoginRequest.getPassword());
+        User user = userRepository.loginUser(userLoginRequest.getPhone(), hashed_password);
         return user;
     }
 
