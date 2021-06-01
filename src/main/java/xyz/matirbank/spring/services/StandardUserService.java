@@ -3,28 +3,28 @@ package xyz.matirbank.spring.services;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xyz.matirbank.spring.models.entities.User;
-import xyz.matirbank.spring.models.requests.UserCreateRequest;
-import xyz.matirbank.spring.models.requests.UserLoginRequest;
-import xyz.matirbank.spring.repositories.UserRepository;
+import xyz.matirbank.spring.models.entities.StandardUser;
+import xyz.matirbank.spring.models.requests.StandardUserSignupRequest;
+import xyz.matirbank.spring.models.requests.StandardUserLoginRequest;
 import xyz.matirbank.spring.utils.Commons;
+import xyz.matirbank.spring.repositories.StandardUserRepository;
 
 @Service
-public class UserService {
+public class StandardUserService {
 
     @Autowired
-    UserRepository userRepository;
+    StandardUserRepository userRepository;
 
-    public UserService() {}
+    public StandardUserService() {}
     
-    public User loginUser(UserLoginRequest userLoginRequest) {
+    public StandardUser loginUser(StandardUserLoginRequest userLoginRequest) {
         String hashed_password = Commons.encodePassword(userLoginRequest.getPassword());
-        User user = userRepository.loginUser(userLoginRequest.getPhone(), hashed_password);
+        StandardUser user = userRepository.loginUser(userLoginRequest.getPhone(), hashed_password);
         return user;
     }
 
-    public User createUser(UserCreateRequest userRequest) {
-        User user = new User();
+    public StandardUser createUser(StandardUserSignupRequest userRequest) {
+        StandardUser user = new StandardUser();
         
         user.setName(userRequest.getName());
         user.setPhone(userRequest.getPhone());
@@ -39,7 +39,7 @@ public class UserService {
         user.setDate_updated(date);
         user.setBalance_updated(date);
 
-        User savedUser = userRepository.save(user);
+        StandardUser savedUser = userRepository.save(user);
         String user_hash = Commons.makeIdHash(savedUser.getId());
         savedUser.setHash(user_hash);
         savedUser = userRepository.save(user);
@@ -47,22 +47,22 @@ public class UserService {
         return savedUser;
     }
 
-    public User getUserById(long id) {
-        User user = userRepository.getById(id);
+    public StandardUser getUserById(long id) {
+        StandardUser user = userRepository.getById(id);
 
-        User subUser = new User();
+        StandardUser subUser = new StandardUser();
         subUser.setId(user.getId());
         subUser.setName(user.getName());
-        subUser.setPhoto(user.getPhoto());
+        subUser.setProfile_photo(user.getProfile_photo());
 
         return subUser;
     }
 
-    public User getUserByPhone(String phone) {
+    public StandardUser getUserByPhone(String phone) {
         return userRepository.findUserByPhone(phone);
     }
     
-    public User getUserByHash(String hash) {
+    public StandardUser getUserByHash(String hash) {
         return userRepository.findUserByHash(hash);
     }
     

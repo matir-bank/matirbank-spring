@@ -1,22 +1,27 @@
 package xyz.matirbank.spring.security;
 
-import java.util.ArrayList;
-
-import org.springframework.security.core.userdetails.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import xyz.matirbank.spring.models.entities.StandardUser;
+import xyz.matirbank.spring.repositories.StandardUserRepository;
 
 @Service
-public class JwtUserDetailsService {
+public class JwtUserDetailsService implements UserDetailsService {
 
-	public UserDetails loadUserByUserHash(String username) throws UsernameNotFoundException {
-		
-            
-            if ("javainuse".equals(username)) {
-			return new User("javainuse", "$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6", new ArrayList<>());
-		} else {
-			throw new UsernameNotFoundException("User not found with username: " + username);
-		}
-	}
+    @Autowired
+    StandardUserRepository userRepository;
+    
+    @Override
+    public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
+        StandardUser user = userRepository.findUserByHash(string);
+        if(user != null) {
+            return user.toUserDetails();
+        }else{
+            throw new UsernameNotFoundException("");
+        }
+    }
+    
 }

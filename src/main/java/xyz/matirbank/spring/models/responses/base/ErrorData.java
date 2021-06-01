@@ -1,5 +1,8 @@
 package xyz.matirbank.spring.models.responses.base;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorData {
     
     int code;

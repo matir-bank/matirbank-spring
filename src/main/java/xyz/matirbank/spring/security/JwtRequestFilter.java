@@ -1,13 +1,10 @@
 package xyz.matirbank.spring.security;
 
-import xyz.matirbank.spring.utils.JwtTokenUtil;
 import java.io.IOException;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,19 +12,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import io.jsonwebtoken.ExpiredJwtException;
-import java.util.ArrayList;
-import java.util.Collection;
-import org.springframework.security.core.GrantedAuthority;
-import xyz.matirbank.spring.models.entities.User;
-import xyz.matirbank.spring.repositories.UserRepository;
+import xyz.matirbank.spring.models.entities.StandardUser;
+import xyz.matirbank.spring.repositories.StandardUserRepository;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
-    UserRepository userRepository;
+    StandardUserRepository userRepository;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -39,38 +32,51 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         String userHash = null;
         String jwtToken = null;
-        // JWT Token is in the form "Bearer token". Remove Bearer word and get
-        // only the Token
+        int errorCode = 0;
+        String errorDetails = "";
+
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 userHash = jwtTokenUtil.getUserHashFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
-                System.out.println("Unable to get JWT Token");
+                errorCode = 11001;
+                errorDetails = "Invalid Authorization Token";
             } catch (ExpiredJwtException e) {
-                System.out.println("JWT Token has expired");
+                errorCode = 11002;
+                errorDetails = "Authorization Token Expired";
+            } catch (Exception e) {
+                errorCode = 11001;
+                errorDetails = "Invalid Authorization Token";
             }
         } else {
-            logger.warn("JWT Token does not begin with Bearer String");
+            errorCode = 11003;
+            errorDetails = "Authorization Token Does Not Begin With Bearer String";
         }
 
-        // Once we get the token validate it.
         if (userHash != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-            User user = userRepository.findUserByHash(userHash);
+            StandardUser user = userRepository.findUserByHash(userHash);
             
-            // if token is valid configure Spring Security to manually set
-            // authentication
             if (jwtTokenUtil.validateToken(jwtToken, user)) {
-                UserDetails userDetails = new org.springframework.security.core.userdetails.User(userHash, "", new ArrayList<>());
+                UserDetails userDetails = user.toUserDetails();
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                // After setting the Authentication in the context, we specify
-                // that the current user is authenticated. So it passes the
-                // Spring Security Configurations successfully.
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            } else {
+                errorCode = 11004;
+                errorDetails = "Authorization Token Tampered";
             }
         }
+        
+//        if(errorCode != 0) {
+//            ErrorResponse errorResponse = new ErrorResponse();
+//            errorResponse.setCode(errorCode);
+//            errorResponse.setSummary(errorDetails);
+//            String serializedResponse = new ObjectMapper().writeValueAsString(new BaseResponse<>(200, null, errorResponse));
+//            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+//            response.getOutputStream().write(serializedResponse.getBytes());
+//        }
+        
         chain.doFilter(request, response);
     }
 

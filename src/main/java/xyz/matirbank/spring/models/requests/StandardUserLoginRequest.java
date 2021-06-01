@@ -1,11 +1,11 @@
 package xyz.matirbank.spring.models.requests;
 
-public class UserLoginRequest {
+public class StandardUserLoginRequest {
     
     String phone;
     String password;
     
-    public UserLoginRequest(){}
+    public StandardUserLoginRequest(){}
 
     public String getPhone() {
         return phone;
