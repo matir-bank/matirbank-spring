@@ -11,12 +11,21 @@ import javax.persistence.UniqueConstraint;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Cards extends BaseEntity implements Serializable {
     
+    Long user_id;
     String number;
     String name;
     String validity;
     String cvv;
     
     public Cards() {}
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
+    }
 
     public String getNumber() {
         return number;
@@ -49,5 +58,6 @@ public class Cards extends BaseEntity implements Serializable {
     public void setCvv(String cvv) {
         this.cvv = cvv;
     }
+    
     
 }

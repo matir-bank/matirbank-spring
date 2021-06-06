@@ -1,15 +1,22 @@
 package xyz.matirbank.spring.models.requests;
 
-import xyz.matirbank.spring.models.Enums.AccountType;
+import xyz.matirbank.spring.models.Enums.UserType;
 
 public class StandardUserSignupRequest {
     
     String name;
     String phone;
     String password;
-    AccountType account_type;
+    UserType user_type;
     
     public StandardUserSignupRequest(){}
+
+    public StandardUserSignupRequest(String name, String phone, String password, UserType user_type) {
+        this.name = name;
+        this.phone = phone;
+        this.password = password;
+        this.user_type = user_type;
+    }
 
     public String getName() {
         return name;
@@ -35,13 +42,12 @@ public class StandardUserSignupRequest {
         this.password = password;
     }
 
-    public AccountType getAccount_type() {
-        return account_type;
+    public UserType getUser_type() {
+        return user_type;
     }
 
-    public void setAccount_type(AccountType account_type) {
-        this.account_type = account_type;
+    public void setUser_type(UserType user_type) {
+        this.user_type = user_type;
     }
-    
-    
+
 }

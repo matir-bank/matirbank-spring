@@ -1,6 +1,7 @@
 package xyz.matirbank.spring.models.responses.base;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaseResponse<T> {
@@ -8,6 +9,7 @@ public class BaseResponse<T> {
     int status;
     T data;
     ErrorResponse error;
+    Date date_updated = new Date();
     
     public BaseResponse(){}
 

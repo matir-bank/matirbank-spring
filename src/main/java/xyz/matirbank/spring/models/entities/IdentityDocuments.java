@@ -11,7 +11,7 @@ import xyz.matirbank.spring.models.Enums.IdentityType;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IdentityDocuments extends BaseEntity implements Serializable {
     
-    long user_id;
+    Long user_id;
     IdentityType type;
     String path;
     String url;

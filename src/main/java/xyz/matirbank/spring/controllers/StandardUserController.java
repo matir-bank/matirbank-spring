@@ -1,5 +1,7 @@
 package xyz.matirbank.spring.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.matirbank.spring.models.entities.StandardUser;
+import xyz.matirbank.spring.models.entities.StandardUsers;
 import xyz.matirbank.spring.models.requests.StandardUserSignupRequest;
 import xyz.matirbank.spring.models.requests.StandardUserLoginRequest;
 import xyz.matirbank.spring.models.responses.JwtResponse;
@@ -22,6 +24,7 @@ import xyz.matirbank.spring.security.JwtTokenUtil;
 
 @RestController
 @RequestMapping("/api/user")
+@Api("User Controller")
 public class StandardUserController {
 
     @Autowired
@@ -31,8 +34,9 @@ public class StandardUserController {
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/login")
+    @ApiOperation("Login")
     public ResponseEntity<BaseResponse<JwtResponse>> loginUser(@RequestBody StandardUserLoginRequest request) {
-        StandardUser user = userService.loginUser(request);
+        StandardUsers user = userService.loginUser(request);
 
         if (user != null) {
             String token = jwtTokenUtil.generateToken(user);
@@ -55,10 +59,10 @@ public class StandardUserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<BaseResponse<StandardUser>> createUser(@RequestBody StandardUserSignupRequest userCreateRequest) {
+    public ResponseEntity<BaseResponse<StandardUsers>> createUser(@RequestBody StandardUserSignupRequest userCreateRequest) {
 
         if (userService.getUserByPhone(userCreateRequest.getPhone()) == null) {
-            StandardUser user = userService.createUser(userCreateRequest);
+            StandardUsers user = userService.createUser(userCreateRequest);
             return new ResponseEntity<>(
                     new BaseResponse<>(200, user, null),
                     new HttpHeaders(),
@@ -76,10 +80,10 @@ public class StandardUserController {
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<BaseResponse<StandardUser>> getUserProfile() {
+    public ResponseEntity<BaseResponse<StandardUsers>> getUserProfile() {
 
         String hash = SecurityContextHolder.getContext().getAuthentication().getName();
-        StandardUser user = userService.getUserByHash(hash);
+        StandardUsers user = userService.getUserByHash(hash);
         return new ResponseEntity<>(
                 new BaseResponse<>(200, user, null),
                 new HttpHeaders(),
@@ -87,8 +91,8 @@ public class StandardUserController {
     }
 
     @GetMapping("/hash/{hash}")
-    public ResponseEntity<BaseResponse<StandardUser>> getUserByHash(@PathVariable String hash) {
-        StandardUser user = userService.getUserByHash(hash);
+    public ResponseEntity<BaseResponse<StandardUsers>> getUserByHash(@PathVariable String hash) {
+        StandardUsers user = userService.getUserByHash(hash);
         if (user != null) {
             return new ResponseEntity<>(
                     new BaseResponse<>(200, user.toScopedData(), null),
@@ -107,8 +111,8 @@ public class StandardUserController {
     }
 
     @GetMapping("/phone/{phone}")
-    public ResponseEntity<BaseResponse<StandardUser>> getUserByPhone(@PathVariable String phone) {
-        StandardUser user = userService.getUserByPhone(phone);
+    public ResponseEntity<BaseResponse<StandardUsers>> getUserByPhone(@PathVariable String phone) {
+        StandardUsers user = userService.getUserByPhone(phone);
         if (user != null) {
             return new ResponseEntity<>(
                     new BaseResponse<>(200, user.toScopedData(), null),

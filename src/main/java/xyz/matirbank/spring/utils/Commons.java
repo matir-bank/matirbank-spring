@@ -1,18 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package xyz.matirbank.spring.utils;
 
 import java.util.Date;
+import java.util.Random;
 import org.apache.commons.codec.digest.DigestUtils;
 import xyz.matirbank.spring.MatirBankApplication;
 
-/**
- *
- * @author User
- */
+
 public class Commons {
     
     public static String getSHA1(String inputData) {
@@ -29,6 +22,18 @@ public class Commons {
         return getSHA1(passwordToken);
     }
     
-    
+    protected String getRandomAlphaNumeric(int length) {
+        
+        String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder randomString = new StringBuilder();
+        Random rnd = new Random();
+        
+        while (randomString.length() < length) {
+            int index = (int) (rnd.nextFloat() * CHARS.length());
+            randomString.append(CHARS.charAt(index));
+        }
+        
+        return randomString.toString();
+    }
     
 }

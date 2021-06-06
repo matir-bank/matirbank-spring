@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import xyz.matirbank.spring.models.entities.StandardUser;
+import xyz.matirbank.spring.models.entities.StandardUsers;
 import xyz.matirbank.spring.repositories.StandardUserRepository;
 
 @Service
@@ -16,7 +16,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     
     @Override
     public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
-        StandardUser user = userRepository.findUserByHash(string);
+        StandardUsers user = userRepository.findUserByHash(string);
         if(user != null) {
             return user.toUserDetails();
         }else{

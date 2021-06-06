@@ -17,12 +17,12 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import xyz.matirbank.spring.models.Enums.AccountType;
+import xyz.matirbank.spring.models.Enums.UserType;
 
 @Entity
 @Table(name = "user", uniqueConstraints=@UniqueConstraint(columnNames={"phone","hash"}))
 @JsonInclude(Include.NON_NULL)
-public class StandardUser extends BaseEntity implements Serializable {
+public class StandardUsers extends BaseEntity implements Serializable {
     
     String name;
     
@@ -32,7 +32,7 @@ public class StandardUser extends BaseEntity implements Serializable {
     @JsonIgnore
     String password_hashed;
     
-    AccountType account_type;
+    UserType user_type;
     
     Double balance;
     
@@ -51,7 +51,7 @@ public class StandardUser extends BaseEntity implements Serializable {
     @JoinColumn(name = "user_id")
     List<IdentityDocuments> identity_documents;
     
-    public StandardUser() {}
+    public StandardUsers() {}
     
     public UserDetails toUserDetails() {
         if(!getHash().equals("") && !getPassword_hashed().equals("")) {
@@ -61,12 +61,12 @@ public class StandardUser extends BaseEntity implements Serializable {
         return null;
     }
     
-    public StandardUser toScopedData() {
-        StandardUser standardUser = new StandardUser();
+    public StandardUsers toScopedData() {
+        StandardUsers standardUser = new StandardUsers();
         standardUser.setHash(getHash());
         standardUser.setName(getName());
         standardUser.setProfile_photo(getProfile_photo());
-        standardUser.setAccount_type(getAccount_type());
+        standardUser.setUser_type(getUser_type());
         return standardUser;
     }
 
@@ -94,12 +94,12 @@ public class StandardUser extends BaseEntity implements Serializable {
         this.password_hashed = password_hashed;
     }
 
-    public AccountType getAccount_type() {
-        return account_type;
+    public UserType getUser_type() {
+        return user_type;
     }
 
-    public void setAccount_type(AccountType account_type) {
-        this.account_type = account_type;
+    public void setUser_type(UserType user_type) {
+        this.user_type = user_type;
     }
 
     public Double getBalance() {
@@ -125,6 +125,8 @@ public class StandardUser extends BaseEntity implements Serializable {
     public void setProfile_photo(Photos profile_photo) {
         this.profile_photo = profile_photo;
     }
+
+    
 
     public List<IdentityDocuments> getIdentity_documents() {
         if(identity_documents != null){
