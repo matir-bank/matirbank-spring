@@ -14,7 +14,6 @@ import xyz.matirbank.spring.models.entities.StandardUsers;
 import xyz.matirbank.spring.models.requests.StandardUserSignupRequest;
 import xyz.matirbank.spring.models.requests.StandardUserLoginRequest;
 import xyz.matirbank.spring.models.responses.JwtResponse;
-import xyz.matirbank.spring.models.responses.base.BaseResponse;
 import xyz.matirbank.spring.models.responses.base.BaseResponseEntity;
 import xyz.matirbank.spring.services.StandardUserService;
 import xyz.matirbank.spring.security.JwtTokenUtil;
@@ -30,54 +29,54 @@ public class StandardUserController {
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/login")
-    public BaseResponseEntity<JwtResponse> loginUser(@RequestBody StandardUserLoginRequest request) {
+    public ResponseEntity loginUser(@RequestBody StandardUserLoginRequest request) {
         StandardUsers user = userService.loginUser(request);
         if (user != null) {
             String token = jwtTokenUtil.generateToken(user);
             JwtResponse jwtResponse = new JwtResponse(token);
-            return new BaseResponseEntity<>().basicData(jwtResponse);
+            return new BaseResponseEntity<>().basicData(jwtResponse).getEntity();
         } else {
-            return new BaseResponseEntity<>().basicError(1001, "Invalid Login Details");
+            return new BaseResponseEntity<>().basicError(1001, "Invalid Login Details").getEntity();
         }
     }
 
     @PostMapping("/signup")
-    public BaseResponseEntity<StandardUsers> createUser(@RequestBody StandardUserSignupRequest userCreateRequest) {
+    public ResponseEntity createUser(@RequestBody StandardUserSignupRequest userCreateRequest) {
         if (userService.getUserByPhone(userCreateRequest.getPhone()) == null) {
             StandardUsers user = userService.createUser(userCreateRequest);
-            return new BaseResponseEntity<>().basicData(user);
+            return new BaseResponseEntity<>().basicData(user).getEntity();
         } else {
-            return new BaseResponseEntity<>().basicError(1002, "User Already Exists");
+            return new BaseResponseEntity<>().basicError(1002, "User Already Exists").getEntity();
         }
     }
 
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/profile")
-    public BaseResponseEntity<StandardUsers> getUserProfile() {
+    public ResponseEntity getUserProfile() {
         String hash = SecurityContextHolder.getContext().getAuthentication().getName();
         StandardUsers user = userService.getUserByHash(hash);
-        return new BaseResponseEntity<>().basicData(user);
+        return new BaseResponseEntity<>().basicData(user).getEntity();
     }
 
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/hash/{hash}")
-    public BaseResponseEntity<StandardUsers> getUserByHash(@PathVariable String hash) {
-        StandardUsers user = userService.getUserByHash(hash);
+    public ResponseEntity getUserByHash(@PathVariable String hash) {
+        StandardUsers user = userService.getUserByHash(hash).toScopedData();
         if (user != null) {
-            return new BaseResponseEntity<>().basicData(user);
+            return new BaseResponseEntity<>().basicData(user).getEntity();
         } else {
-            return new BaseResponseEntity<>().basicError(1003, "User Does Not Exists");
+            return new BaseResponseEntity<>().basicError(1003, "User Does Not Exists").getEntity();
         }
     }
 
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/phone/{phone}")
-    public BaseResponseEntity<StandardUsers> getUserByPhone(@PathVariable String phone) {
-        StandardUsers user = userService.getUserByPhone(phone);
+    public ResponseEntity getUserByPhone(@PathVariable String phone) {
+        StandardUsers user = userService.getUserByPhone(phone).toScopedData();
         if (user != null) {
-            return new BaseResponseEntity<>().basicData(user);
+            return new BaseResponseEntity<>().basicData(user).getEntity();
         } else {
-            return new BaseResponseEntity<>().basicError(1003, "User Does Not Exists");
+            return new BaseResponseEntity<>().basicError(1003, "User Does Not Exists").getEntity();
         }
     }
 

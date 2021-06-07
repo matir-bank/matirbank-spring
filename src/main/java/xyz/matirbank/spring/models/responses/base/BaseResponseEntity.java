@@ -3,6 +3,7 @@ package xyz.matirbank.spring.models.responses.base;
 import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 public class BaseResponseEntity<T> {
 
@@ -11,6 +12,10 @@ public class BaseResponseEntity<T> {
     HttpStatus httpStatus = HttpStatus.OK;
 
     public BaseResponseEntity() {}
+    
+    public ResponseEntity getEntity() {
+        return new ResponseEntity<>(baseResponse, httpHeaders, httpStatus);
+    }
 
     public BaseResponseEntity basicData(T data) {
         this.baseResponse = new BaseResponse<>(200, data, null);
