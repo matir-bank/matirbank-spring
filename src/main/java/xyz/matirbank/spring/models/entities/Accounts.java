@@ -18,5 +18,40 @@ public class Accounts extends BaseEntity implements Serializable {
     AccountType account_type;
     Double balance;
     Date balance_updated;
+
+    public Accounts() {}
+
+    public long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(long user_id) {
+        this.user_id = user_id;
+    }
+
+    public AccountType getAccount_type() {
+        return account_type;
+    }
+
+    public void setAccount_type(AccountType account_type) {
+        this.account_type = account_type;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
+    }
+
+    public Date getBalance_updated() {
+        return balance_updated;
+    }
+
+    public void setBalance_updated(Date balance_updated) {
+        this.balance_updated = balance_updated;
+    }
+    
     
 }

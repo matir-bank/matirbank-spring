@@ -14,5 +14,32 @@ public class AccountTransactions extends BaseEntity implements Serializable {
     Long account_from;
     Long account_to;
     Double amount;
+
+    public AccountTransactions() {}
+
+    public Long getAccount_from() {
+        return account_from;
+    }
+
+    public void setAccount_from(Long account_from) {
+        this.account_from = account_from;
+    }
+
+    public Long getAccount_to() {
+        return account_to;
+    }
+
+    public void setAccount_to(Long account_to) {
+        this.account_to = account_to;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+    
     
 }
