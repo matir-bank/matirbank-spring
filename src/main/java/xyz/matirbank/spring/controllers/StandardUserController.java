@@ -94,11 +94,7 @@ public class StandardUserController {
         String fileName = user.getHash() + ".jpg";
         Path filePath = Paths.get("uploads/user/photos/").toAbsolutePath().normalize();
         
-        try {
-            Files.createDirectories(filePath);
-        } catch (Exception e) {
-            //
-        }
+        try {Files.createDirectories(filePath);}catch(Exception e){}
         
         fileName = StringUtils.cleanPath(fileName);
         String fullPath = filePath + "\\" + fileName;
@@ -109,9 +105,7 @@ public class StandardUserController {
             
             // Save to Database
             
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        } catch(Exception e) {e.printStackTrace();}
         
         return new BaseResponseEntity<>().basicData(user).getEntity();
     }
