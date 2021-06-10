@@ -1,5 +1,6 @@
 package xyz.matirbank.spring.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -8,7 +9,9 @@ import javax.persistence.Table;
 @Table(name = "photo")
 public class Photos extends BaseEntity implements Serializable {
     
+    @JsonIgnore
     String path;
+    
     String url;
     
     public Photos() {}

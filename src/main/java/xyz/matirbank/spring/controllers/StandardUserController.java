@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import xyz.matirbank.spring.models.entities.Photos;
 import xyz.matirbank.spring.models.entities.StandardUsers;
 import xyz.matirbank.spring.models.requests.StandardUserSignupRequest;
 import xyz.matirbank.spring.models.requests.StandardUserLoginRequest;
@@ -24,6 +24,7 @@ import xyz.matirbank.spring.models.responses.JwtResponse;
 import xyz.matirbank.spring.models.responses.base.BaseResponseEntity;
 import xyz.matirbank.spring.services.StandardUserService;
 import xyz.matirbank.spring.security.JwtTokenUtil;
+import xyz.matirbank.spring.services.PhotoService;
 
 @RestController
 @RequestMapping("/api/user")
@@ -31,6 +32,9 @@ public class StandardUserController {
 
     @Autowired
     StandardUserService userService;
+    
+    @Autowired
+    PhotoService photoService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -102,9 +106,13 @@ public class StandardUserController {
         
         try {
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            
+            Photos photos = new Photos();
+            photos.setPath(targetLocation.toString());
+            photos.setUrl("/uploads/user/photos/" + fileName);
+            photos = photoService.savePhotoToDatabase(photos);
             // Save to Database
-            
+            user.setProfile_photo(photos);
+            user = userService.updateUser(user);
         } catch(Exception e) {e.printStackTrace();}
         
         return new BaseResponseEntity<>().basicData(user).getEntity();

@@ -100,4 +100,8 @@ public class StandardUserService {
         return null;
     }
     
+    public StandardUsers updateUser(StandardUsers user) {
+        return userRepository.save(user);
+    }
+    
 }

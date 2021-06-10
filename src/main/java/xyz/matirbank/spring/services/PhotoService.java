@@ -13,7 +13,6 @@ public class PhotoService {
     public PhotoService() {}
     
     public Photos savePhotoToDatabase(Photos photos) {
-        
         return photoRepository.save(photos);
     }
 }
