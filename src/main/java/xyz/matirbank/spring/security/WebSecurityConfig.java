@@ -29,7 +29,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         "/v3/**",
         "/v2/api-docs",
         "/webjars/**",
-        "/uploads/**"
+        "/uploads/**",
+        "/h2/**"
     };
 
     @Autowired

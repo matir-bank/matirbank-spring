@@ -9,13 +9,13 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "account_transactions", uniqueConstraints=@UniqueConstraint(columnNames={"hash"}))
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AccountTransactions extends BaseEntity implements Serializable {
+public class AccountTransaction extends BaseEntity implements Serializable {
     
     Long account_from;
     Long account_to;
     Double amount;
 
-    public AccountTransactions() {}
+    public AccountTransaction() {}
 
     public Long getAccount_from() {
         return account_from;

@@ -1,13 +1,13 @@
 package xyz.matirbank.spring.models.responses;
 
 import java.util.Date;
-import xyz.matirbank.spring.models.entities.StandardUsers;
+import xyz.matirbank.spring.models.entities.StandardUser;
 
 public class UserTransactionResponseModel {
     
     String transaction_id;
-    StandardUsers user_from;
-    StandardUsers user_to;
+    StandardUser user_from;
+    StandardUser user_to;
     Double amount;
     Date transaction_date;
     

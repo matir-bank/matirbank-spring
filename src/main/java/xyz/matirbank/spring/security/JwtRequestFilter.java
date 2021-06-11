@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import io.jsonwebtoken.ExpiredJwtException;
-import xyz.matirbank.spring.models.entities.StandardUsers;
+import xyz.matirbank.spring.models.entities.StandardUser;
 import xyz.matirbank.spring.repositories.StandardUserRepository;
 
 @Component
@@ -55,7 +55,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if (userHash != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            StandardUsers user = userRepository.findUserByHash(userHash);
+            StandardUser user = userRepository.findUserByHash(userHash);
             
             if (jwtTokenUtil.validateToken(jwtToken, user)) {
                 UserDetails userDetails = user.toUserDetails();

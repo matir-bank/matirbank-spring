@@ -9,14 +9,14 @@ import xyz.matirbank.spring.models.Enums.IdentityType;
 @Entity
 @Table(name = "identity_document")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class IdentityDocuments extends BaseEntity implements Serializable {
+public class IdentityDocument extends BaseEntity implements Serializable {
     
     Long user_id;
     IdentityType type;
     String path;
     String url;
     
-    public IdentityDocuments() {}
+    public IdentityDocument() {}
 
     public long getUser_id() {
         return user_id;

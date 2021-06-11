@@ -9,7 +9,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "cards", uniqueConstraints=@UniqueConstraint(columnNames={"hash"}))
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Cards extends BaseEntity implements Serializable {
+public class Card extends BaseEntity implements Serializable {
     
     Long user_id;
     String number;
@@ -17,7 +17,7 @@ public class Cards extends BaseEntity implements Serializable {
     String validity;
     String cvv;
     
-    public Cards() {}
+    public Card() {}
 
     public Long getUser_id() {
         return user_id;

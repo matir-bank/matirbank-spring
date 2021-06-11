@@ -4,7 +4,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import xyz.matirbank.spring.models.entities.StandardUsers;
+import xyz.matirbank.spring.models.entities.StandardUser;
 import xyz.matirbank.spring.models.requests.StandardUserSignupRequest;
 import xyz.matirbank.spring.models.requests.StandardUserLoginRequest;
 import xyz.matirbank.spring.utils.Commons;
@@ -18,14 +18,14 @@ public class StandardUserService {
 
     public StandardUserService() {}
     
-    public StandardUsers loginUser(StandardUserLoginRequest userLoginRequest) {
+    public StandardUser loginUser(StandardUserLoginRequest userLoginRequest) {
         String hashed_password = Commons.encodePassword(userLoginRequest.getPassword());
-        StandardUsers user = userRepository.loginUser(userLoginRequest.getPhone(), hashed_password);
+        StandardUser user = userRepository.loginUser(userLoginRequest.getPhone(), hashed_password);
         return user;
     }
 
-    public StandardUsers createUser(StandardUserSignupRequest userRequest) {
-        StandardUsers user = new StandardUsers();
+    public StandardUser createUser(StandardUserSignupRequest userRequest) {
+        StandardUser user = new StandardUser();
         
         user.setName(userRequest.getName());
         user.setPhone(userRequest.getPhone());
@@ -40,7 +40,7 @@ public class StandardUserService {
         user.setDate_updated(date);
         user.setBalance_updated(date);
 
-        StandardUsers savedUser = userRepository.save(user);
+        StandardUser savedUser = userRepository.save(user);
         String user_hash = Commons.makeIdHash(savedUser.getId());
         
         while(userRepository.findUserByHash(user_hash) != null) {
@@ -53,10 +53,10 @@ public class StandardUserService {
         return savedUser;
     }
 
-    public StandardUsers getUserById(long id) {
-        StandardUsers user = userRepository.getById(id);
+    public StandardUser getUserById(long id) {
+        StandardUser user = userRepository.getById(id);
 
-        StandardUsers subUser = new StandardUsers();
+        StandardUser subUser = new StandardUser();
         subUser.setId(user.getId());
         subUser.setName(user.getName());
         subUser.setProfile_photo(user.getProfile_photo());
@@ -64,11 +64,11 @@ public class StandardUserService {
         return subUser;
     }
 
-    public StandardUsers getUserByPhone(String phone) {
+    public StandardUser getUserByPhone(String phone) {
         return userRepository.findUserByPhone(phone);
     }
     
-    public StandardUsers getUserByHash(String hash) {
+    public StandardUser getUserByHash(String hash) {
         return userRepository.findUserByHash(hash);
     }
     
@@ -84,24 +84,28 @@ public class StandardUserService {
     public long getCurrentUserId() {
         String hash = getCurrentUserHash();
         if(!hash.isEmpty()) {
-            StandardUsers user = userRepository.findUserByHash(hash);
+            StandardUser user = userRepository.findUserByHash(hash);
             return user.getId();
         }else{
             return -1;
         }
     }
     
-    public StandardUsers getCurrentUser() {
+    public StandardUser getCurrentUser() {
         String hash = getCurrentUserHash();
         if(!hash.isEmpty()) {
-            StandardUsers user = userRepository.findUserByHash(hash);
+            StandardUser user = userRepository.findUserByHash(hash);
             return user;
         }
         return null;
     }
     
-    public StandardUsers updateUser(StandardUsers user) {
+    public StandardUser updateUser(StandardUser user) {
         return userRepository.save(user);
+    }
+    
+    public StandardUser getSystemUser() {
+        return userRepository.findSystemUser();
     }
     
 }

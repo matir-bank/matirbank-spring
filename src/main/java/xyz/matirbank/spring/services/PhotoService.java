@@ -2,7 +2,7 @@ package xyz.matirbank.spring.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xyz.matirbank.spring.models.entities.Photos;
+import xyz.matirbank.spring.models.entities.Photo;
 import xyz.matirbank.spring.repositories.PhotoRepository;
 
 @Service
@@ -12,7 +12,7 @@ public class PhotoService {
     
     public PhotoService() {}
     
-    public Photos savePhotoToDatabase(Photos photos) {
+    public Photo savePhotoToDatabase(Photo photos) {
         return photoRepository.save(photos);
     }
 }

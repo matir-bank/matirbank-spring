@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import xyz.matirbank.spring.models.entities.StandardUsers;
+import xyz.matirbank.spring.models.entities.StandardUser;
 
 @Component
 public class JwtTokenUtil implements Serializable {
@@ -44,7 +44,7 @@ public class JwtTokenUtil implements Serializable {
         return expiration.before(new Date());
     }
 
-    public String generateToken(StandardUsers user) {
+    public String generateToken(StandardUser user) {
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, user.getHash());
     }
@@ -55,7 +55,7 @@ public class JwtTokenUtil implements Serializable {
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 
-    public Boolean validateToken(String token, StandardUsers user) {
+    public Boolean validateToken(String token, StandardUser user) {
         final String userHash = getUserHashFromToken(token);
         return (userHash.equals(user.getHash()) && !isTokenExpired(token));
     }

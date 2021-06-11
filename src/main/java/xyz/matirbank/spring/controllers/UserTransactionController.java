@@ -2,54 +2,64 @@ package xyz.matirbank.spring.controllers;
 
 import java.util.List;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.matirbank.spring.models.Enums.TransactionType;
-import xyz.matirbank.spring.models.entities.StandardUsers;
-import xyz.matirbank.spring.models.entities.UserTransactions;
+import xyz.matirbank.spring.models.Enums.ServiceCharge;
+import xyz.matirbank.spring.models.entities.StandardUser;
+import xyz.matirbank.spring.models.entities.UserTransaction;
+import xyz.matirbank.spring.models.requests.SendMoneyRequest;
 import xyz.matirbank.spring.models.responses.base.BaseResponseEntity;
-import xyz.matirbank.spring.repositories.UserTransactionRepository;
 import xyz.matirbank.spring.services.StandardUserService;
+import xyz.matirbank.spring.services.UserTransactionService;
 
 @RestController
 @RequestMapping("/api/transaction")
 public class UserTransactionController {
     
     @Autowired
-    StandardUserService standardUserController;
+    StandardUserService standardUserService;
     
     @Autowired
-    UserTransactionRepository userTransactionRepository;
+    UserTransactionService userTransactionsService;
     
     @SecurityRequirement(name = "bearerAuth")
     @PostMapping("/send-money")
-    public ResponseEntity<BaseResponseEntity<UserTransactions>> sendMoney(String user_hash, Double amount, String remarks) {
-        StandardUsers senderUser = standardUserController.getCurrentUser();
-        StandardUsers receiverUser = standardUserController.getUserByHash(user_hash);
+    public ResponseEntity<BaseResponseEntity<List<UserTransaction>>> sendMoney(SendMoneyRequest sendMoneyRequest) {
+        StandardUser senderUser = standardUserService.getCurrentUser();
+        StandardUser receiverUser = standardUserService.getUserByHash(sendMoneyRequest.getUser_hash());
         
-        UserTransactions userTransaction = new UserTransactions();
-        userTransaction.setTransaction_id("X");
-        userTransaction.setUser_from(senderUser.getId());
-        userTransaction.setUser_to(receiverUser.getId());
-        userTransaction.setAmount(amount);
-        userTransaction.setTransaction_type(TransactionType.USER_TO_USER_TRANSACTION);
+        UserTransaction userMainTransaction = userTransactionsService
+                .makeNewUserTransaction(
+                        senderUser, 
+                        receiverUser, 
+                        sendMoneyRequest.getAmount(), 
+                        sendMoneyRequest.getRemarks()
+                );
         
-        userTransaction = userTransactionRepository.save(userTransaction);
-        return new BaseResponseEntity<>().basicData(userTransaction).getEntity();
+        UserTransaction userServiceChargeTransaction = userTransactionsService.
+                makeNewServiceChargeTransaction(
+                        senderUser, 
+                        2.5D, 
+                        ServiceCharge.USER_SEND_MONEY
+                );
+        
+        List<UserTransaction> userTransactions = new ArrayList<>();
+        userTransactions.add(userMainTransaction);
+        userTransactions.add(userServiceChargeTransaction);
+        
+        return new BaseResponseEntity<>().basicData(userTransactions).getEntity();
     }
     
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/list")
-    public ResponseEntity<BaseResponseEntity<List<UserTransactions>>> getTransactions() {
-        StandardUsers user = standardUserController.getCurrentUser();
-        List<UserTransactions> userTransactions = userTransactionRepository.getUserTransactions(user.getId());
+    public ResponseEntity<BaseResponseEntity<List<UserTransaction>>> getTransactions() {
+        List<UserTransaction> userTransactions = userTransactionsService.getUserTransactions(standardUserService.getCurrentUser().getId());
         return new BaseResponseEntity<>().basicData(userTransactions).getEntity();
     }
-    
-    
     
 }

@@ -12,14 +12,14 @@ import xyz.matirbank.spring.models.Enums.AccountType;
 @Entity
 @Table(name = "accounts", uniqueConstraints=@UniqueConstraint(columnNames={"hash"}))
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Accounts extends BaseEntity implements Serializable {
+public class Account extends BaseEntity implements Serializable {
     
     long user_id;
     AccountType account_type;
     Double balance;
     Date balance_updated;
 
-    public Accounts() {}
+    public Account() {}
 
     public long getUser_id() {
         return user_id;

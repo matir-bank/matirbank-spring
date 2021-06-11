@@ -22,7 +22,7 @@ import xyz.matirbank.spring.models.Enums.UserType;
 @Entity
 @Table(name = "user", uniqueConstraints=@UniqueConstraint(columnNames={"phone","hash"}))
 @JsonInclude(Include.NON_NULL)
-public class StandardUsers extends BaseEntity implements Serializable {
+public class StandardUser extends BaseEntity implements Serializable {
     
     String name;
     
@@ -39,19 +39,19 @@ public class StandardUsers extends BaseEntity implements Serializable {
     @JsonIgnore
     Date balance_updated;
     
-    @OneToOne(targetEntity=Photos.class)
+    @OneToOne(targetEntity=Photo.class)
     @JoinColumn(name = "user_id")
-    Photos profile_photo;
+    Photo profile_photo;
     
     @OneToMany(
-        targetEntity=IdentityDocuments.class,
+        targetEntity=IdentityDocument.class,
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
     @JoinColumn(name = "user_id")
-    List<IdentityDocuments> identity_documents;
+    List<IdentityDocument> identity_documents;
     
-    public StandardUsers() {}
+    public StandardUser() {}
     
     public UserDetails toUserDetails() {
         if(!getHash().equals("") && !getPassword_hashed().equals("")) {
@@ -61,8 +61,8 @@ public class StandardUsers extends BaseEntity implements Serializable {
         return null;
     }
     
-    public StandardUsers toScopedData() {
-        StandardUsers standardUser = new StandardUsers();
+    public StandardUser toScopedData() {
+        StandardUser standardUser = new StandardUser();
         standardUser.setHash(getHash());
         standardUser.setName(getName());
         standardUser.setProfile_photo(getProfile_photo());
@@ -118,17 +118,17 @@ public class StandardUsers extends BaseEntity implements Serializable {
         this.balance_updated = balance_updated;
     }
 
-    public Photos getProfile_photo() {
+    public Photo getProfile_photo() {
         return profile_photo;
     }
 
-    public void setProfile_photo(Photos profile_photo) {
+    public void setProfile_photo(Photo profile_photo) {
         this.profile_photo = profile_photo;
     }
 
     
 
-    public List<IdentityDocuments> getIdentity_documents() {
+    public List<IdentityDocument> getIdentity_documents() {
         if(identity_documents != null){
             if(identity_documents.isEmpty()){
                 return null;
@@ -137,7 +137,7 @@ public class StandardUsers extends BaseEntity implements Serializable {
         return identity_documents;
     }
 
-    public void setIdentity_documents(List<IdentityDocuments> identity_documents) {
+    public void setIdentity_documents(List<IdentityDocument> identity_documents) {
         this.identity_documents = identity_documents;
     }
     

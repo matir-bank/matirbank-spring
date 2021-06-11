@@ -28,7 +28,7 @@ public class Commons {
         return getSHA1(passwordToken);
     }
     
-    protected String getRandomAlphaNumeric(int length) {
+    public static String getRandomAlphaNumeric(int length) {
         String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder randomString = new StringBuilder();
         Random rnd = new Random();
@@ -40,5 +40,7 @@ public class Commons {
         
         return randomString.toString();
     }
+    
+    
     
 }

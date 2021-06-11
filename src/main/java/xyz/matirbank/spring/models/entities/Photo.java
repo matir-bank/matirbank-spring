@@ -7,14 +7,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "photo")
-public class Photos extends BaseEntity implements Serializable {
+public class Photo extends BaseEntity implements Serializable {
     
     @JsonIgnore
     String path;
     
     String url;
     
-    public Photos() {}
+    public Photo() {}
 
     public String getPath() {
         return path;
