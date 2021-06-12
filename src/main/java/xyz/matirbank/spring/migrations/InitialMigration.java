@@ -18,7 +18,7 @@ public class InitialMigration {
     }
     
     private static void createSystemStandardUsers() {
-        StandardUser mainUser = standardUserService.createUser(new StandardUserSignupRequest("MatirBank", "0000000000", "", UserType.SYSTEM));
+        standardUserService.createUser(new StandardUserSignupRequest("MatirBank", "0000000000", "", UserType.SYSTEM));
     }
     
     private static void createSystemStandardUsersAccounts() {

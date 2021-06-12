@@ -12,6 +12,20 @@ public class ErrorResponse {
     
     public ErrorResponse() {}
 
+    public ErrorResponse(int code, String summary) {
+        this.code = code;
+        this.summary = summary;
+        this.errors = null;
+    }
+    
+    
+
+    public ErrorResponse(int code, String summary, List<ErrorData> errors) {
+        this.code = code;
+        this.summary = summary;
+        this.errors = errors;
+    }
+
     public int getCode() {
         return code;
     }
