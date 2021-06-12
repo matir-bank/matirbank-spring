@@ -1,6 +1,5 @@
 package xyz.matirbank.spring.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.Date;
@@ -10,12 +9,13 @@ import javax.persistence.UniqueConstraint;
 import xyz.matirbank.spring.models.Enums.AccountType;
 
 @Entity
-@Table(name = "accounts", uniqueConstraints=@UniqueConstraint(columnNames={"hash"}))
+@Table(name = "account", uniqueConstraints=@UniqueConstraint(columnNames={"hash"}))
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Account extends BaseEntity implements Serializable {
     
     long user_id;
     AccountType account_type;
+    String account_head;
     Double balance;
     Date balance_updated;
 
@@ -37,6 +37,14 @@ public class Account extends BaseEntity implements Serializable {
         this.account_type = account_type;
     }
 
+    public String getAccount_head() {
+        return account_head;
+    }
+
+    public void setAccount_head(String account_head) {
+        this.account_head = account_head;
+    }
+
     public Double getBalance() {
         return balance;
     }
@@ -52,6 +60,6 @@ public class Account extends BaseEntity implements Serializable {
     public void setBalance_updated(Date balance_updated) {
         this.balance_updated = balance_updated;
     }
-    
+
     
 }

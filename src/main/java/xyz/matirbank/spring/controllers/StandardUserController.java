@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import xyz.matirbank.spring.models.ReturnContainer;
 import xyz.matirbank.spring.models.entities.Photo;
 import xyz.matirbank.spring.models.entities.StandardUser;
 import xyz.matirbank.spring.models.requests.StandardUserSignupRequest;
@@ -53,12 +54,9 @@ public class StandardUserController {
 
     @PostMapping("/signup")
     public ResponseEntity<BaseResponseEntity<StandardUser>> createUser(@RequestBody StandardUserSignupRequest userCreateRequest) {
-        if (userService.getUserByPhone(userCreateRequest.getPhone()) == null) {
-            StandardUser user = userService.createUser(userCreateRequest);
-            return new BaseResponseEntity<>().basicData(user).getEntity();
-        } else {
-            return new BaseResponseEntity<>().basicError(1002, "User Already Exists").getEntity();
-        }
+        return new BaseResponseEntity<>()
+                .basicData(userService.createUser(userCreateRequest))
+                .getEntity();
     }
 
     @SecurityRequirement(name = "bearerAuth")
