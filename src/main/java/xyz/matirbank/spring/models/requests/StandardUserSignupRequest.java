@@ -3,13 +3,14 @@ package xyz.matirbank.spring.models.requests;
 import xyz.matirbank.spring.models.Enums.UserType;
 
 public class StandardUserSignupRequest {
-    
+
     String name;
     String phone;
     String password;
     UserType user_type;
-    
-    public StandardUserSignupRequest(){}
+
+    public StandardUserSignupRequest() {
+    }
 
     public StandardUserSignupRequest(String name, String phone, String password, UserType user_type) {
         this.name = name;

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import xyz.matirbank.spring.models.entities.Photo;
 
 @Repository
-public interface PhotoRepository extends JpaRepository<Photo, Long>, QueryByExampleExecutor<Photo>  {
-    
+public interface PhotoRepository extends JpaRepository<Photo, Long>, QueryByExampleExecutor<Photo> {
+
 }

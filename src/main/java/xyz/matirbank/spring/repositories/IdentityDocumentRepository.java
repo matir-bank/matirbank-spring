@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import xyz.matirbank.spring.models.entities.IdentityDocument;
 
 @Repository
-public interface IdentityDocumentRepository extends JpaRepository<IdentityDocument, Long>, QueryByExampleExecutor<IdentityDocument>  {
-    
+public interface IdentityDocumentRepository extends JpaRepository<IdentityDocument, Long>, QueryByExampleExecutor<IdentityDocument> {
+
 }

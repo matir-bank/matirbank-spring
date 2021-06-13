@@ -10,10 +10,10 @@ import xyz.matirbank.spring.models.Enums.ServiceCharge;
 import xyz.matirbank.spring.models.Enums.TransactionType;
 
 @Entity
-@Table(name = "user_transactions", uniqueConstraints=@UniqueConstraint(columnNames={"hash"}))
+@Table(name = "user_transactions", uniqueConstraints = @UniqueConstraint(columnNames = {"hash"}))
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserTransaction extends BaseEntity implements Serializable {
-    
+
     String transaction_id;
     Long user_from;
     Long user_to;
@@ -24,7 +24,8 @@ public class UserTransaction extends BaseEntity implements Serializable {
     Long transaction_reference_id;
     String remarks;
 
-    public UserTransaction() { }
+    public UserTransaction() {
+    }
 
     public String getTransaction_id() {
         return transaction_id;
@@ -98,5 +99,4 @@ public class UserTransaction extends BaseEntity implements Serializable {
         this.remarks = remarks;
     }
 
-    
 }

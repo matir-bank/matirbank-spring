@@ -9,17 +9,18 @@ import javax.persistence.UniqueConstraint;
 import xyz.matirbank.spring.models.Enums.AccountType;
 
 @Entity
-@Table(name = "account", uniqueConstraints=@UniqueConstraint(columnNames={"hash"}))
+@Table(name = "account", uniqueConstraints = @UniqueConstraint(columnNames = {"hash"}))
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Account extends BaseEntity implements Serializable {
-    
+
     long user_id;
     AccountType account_type;
     String account_head;
     Double balance;
     Date balance_updated;
 
-    public Account() {}
+    public Account() {
+    }
 
     public long getUser_id() {
         return user_id;
@@ -61,5 +62,4 @@ public class Account extends BaseEntity implements Serializable {
         this.balance_updated = balance_updated;
     }
 
-    
 }

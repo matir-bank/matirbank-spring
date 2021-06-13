@@ -20,47 +20,48 @@ import org.springframework.security.core.userdetails.UserDetails;
 import xyz.matirbank.spring.models.Enums.UserType;
 
 @Entity
-@Table(name = "user", uniqueConstraints=@UniqueConstraint(columnNames={"phone","hash"}))
+@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = {"phone", "hash"}))
 @JsonInclude(Include.NON_NULL)
 public class StandardUser extends BaseEntity implements Serializable {
-    
+
     String name;
-    
-    @Column(unique=true)
+
+    @Column(unique = true)
     String phone;
-    
+
     @JsonIgnore
     String password_hashed;
-    
+
     UserType user_type;
-    
+
     Double balance;
-    
+
     @JsonIgnore
     Date balance_updated;
-    
-    @OneToOne(targetEntity=Photo.class)
+
+    @OneToOne(targetEntity = Photo.class)
     @JoinColumn(name = "user_id")
     Photo profile_photo;
-    
+
     @OneToMany(
-        targetEntity=IdentityDocument.class,
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
+            targetEntity = IdentityDocument.class,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
     @JoinColumn(name = "user_id")
     List<IdentityDocument> identity_documents;
-    
-    public StandardUser() {}
-    
+
+    public StandardUser() {
+    }
+
     public UserDetails toUserDetails() {
-        if(!getHash().equals("") && !getPassword_hashed().equals("")) {
+        if (!getHash().equals("") && !getPassword_hashed().equals("")) {
             UserDetails userDetails = new org.springframework.security.core.userdetails.User(getHash(), getPassword_hashed(), new ArrayList<>());
             return userDetails;
         }
         return null;
     }
-    
+
     public StandardUser toScopedData() {
         StandardUser standardUser = new StandardUser();
         standardUser.setHash(getHash());
@@ -126,11 +127,9 @@ public class StandardUser extends BaseEntity implements Serializable {
         this.profile_photo = profile_photo;
     }
 
-    
-
     public List<IdentityDocument> getIdentity_documents() {
-        if(identity_documents != null){
-            if(identity_documents.isEmpty()){
+        if (identity_documents != null) {
+            if (identity_documents.isEmpty()) {
                 return null;
             }
         }
@@ -140,6 +139,5 @@ public class StandardUser extends BaseEntity implements Serializable {
     public void setIdentity_documents(List<IdentityDocument> identity_documents) {
         this.identity_documents = identity_documents;
     }
-    
-    
+
 }

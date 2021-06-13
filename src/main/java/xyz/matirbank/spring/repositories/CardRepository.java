@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import xyz.matirbank.spring.models.entities.Card;
 
 @Repository
-public interface CardRepository extends JpaRepository<Card, Long>, QueryByExampleExecutor<Card>  {
-    
+public interface CardRepository extends JpaRepository<Card, Long>, QueryByExampleExecutor<Card> {
+
 }

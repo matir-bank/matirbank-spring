@@ -12,28 +12,29 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaseEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnore
     long id;
-    
-    @Column(unique=true)
+
+    @Column(unique = true)
     String hash;
-    
+
     @JsonIgnore
     Date date_created;
-    
+
     @JsonIgnore
     Date date_updated;
-    
+
     @JsonIgnore
     Boolean is_active;
-    
+
     @JsonIgnore
     Boolean is_deleted;
-    
-    public BaseEntity() {}
+
+    public BaseEntity() {
+    }
 
     public long getId() {
         return id;
@@ -82,5 +83,5 @@ public class BaseEntity {
     public void setIs_deleted(Boolean is_deleted) {
         this.is_deleted = is_deleted;
     }
-    
+
 }

@@ -7,5 +7,5 @@ import xyz.matirbank.spring.models.entities.AccountTransaction;
 
 @Repository
 public interface AccountTransactionRepository extends JpaRepository<AccountTransaction, Long>, QueryByExampleExecutor<AccountTransaction> {
-    
+
 }

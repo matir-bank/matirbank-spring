@@ -1,12 +1,13 @@
 package xyz.matirbank.spring.models.requests;
 
 public class SendMoneyRequest {
-    
+
     String user_hash;
     Double amount;
     String remarks;
-    
-    public SendMoneyRequest(){}
+
+    public SendMoneyRequest() {
+    }
 
     public String getUser_hash() {
         return user_hash;
@@ -31,5 +32,5 @@ public class SendMoneyRequest {
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
-    
+
 }

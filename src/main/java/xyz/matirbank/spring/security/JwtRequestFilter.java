@@ -56,7 +56,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         if (userHash != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             StandardUser user = userRepository.findUserByHash(userHash);
-            
+
             if (jwtTokenUtil.validateToken(jwtToken, user)) {
                 UserDetails userDetails = user.toUserDetails();
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -67,7 +67,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 errorDetails = "Authorization Token Tampered";
             }
         }
-        
+
 //        if(errorCode != 0) {
 //            ErrorResponse errorResponse = new ErrorResponse();
 //            errorResponse.setCode(errorCode);
@@ -76,7 +76,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 //            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 //            response.getOutputStream().write(serializedResponse.getBytes());
 //        }
-        
         chain.doFilter(request, response);
     }
 

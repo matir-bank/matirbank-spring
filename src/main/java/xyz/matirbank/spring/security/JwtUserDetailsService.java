@@ -13,15 +13,15 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Autowired
     StandardUserRepository userRepository;
-    
+
     @Override
     public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
         StandardUser user = userRepository.findUserByHash(string);
-        if(user != null) {
+        if (user != null) {
             return user.toUserDetails();
-        }else{
+        } else {
             throw new UsernameNotFoundException("");
         }
     }
-    
+
 }

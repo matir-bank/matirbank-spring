@@ -8,13 +8,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "photo")
 public class Photo extends BaseEntity implements Serializable {
-    
+
     @JsonIgnore
     String path;
-    
+
     String url;
-    
-    public Photo() {}
+
+    public Photo() {
+    }
 
     public String getPath() {
         return path;
@@ -31,5 +32,5 @@ public class Photo extends BaseEntity implements Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
-    
+
 }

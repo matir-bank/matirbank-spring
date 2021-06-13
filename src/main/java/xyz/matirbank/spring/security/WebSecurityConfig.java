@@ -17,11 +17,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    
+
     private static final String[] AUTH_WHITELIST = {
         "/",
         "/csrf",
-        "/api/user/login", 
+        "/api/user/login",
         "/api/user/signup",
         "/swagger-resources/**",
         "/swagger-ui.html",

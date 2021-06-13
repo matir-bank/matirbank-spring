@@ -14,5 +14,5 @@ public class SaltedPasswordEncoder implements PasswordEncoder {
     public boolean matches(CharSequence cs, String string) {
         return Commons.encodePassword(cs.toString()).equals(string);
     }
-    
+
 }

@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorData {
-    
+
     int code;
     String name;
     String details;
-    
-    public ErrorData() {}
+
+    public ErrorData() {
+    }
 
     public int getCode() {
         return code;
@@ -34,5 +35,5 @@ public class ErrorData {
     public void setDetails(String details) {
         this.details = details;
     }
-    
+
 }
