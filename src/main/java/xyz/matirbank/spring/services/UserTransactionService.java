@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.matirbank.spring.models.Enums.ServiceCharge;
 import xyz.matirbank.spring.models.Enums.TransactionType;
+import xyz.matirbank.spring.models.ReturnContainer;
 import xyz.matirbank.spring.models.entities.StandardUser;
 import xyz.matirbank.spring.models.entities.UserTransaction;
 import xyz.matirbank.spring.repositories.UserTransactionRepository;
@@ -19,8 +20,9 @@ public class UserTransactionService {
     @Autowired
     UserTransactionRepository userTransactionRepository;
 
-    public List<UserTransaction> getUserTransactions(Long user_id) {
-        return userTransactionRepository.getUserTransactions(user_id);
+    public ReturnContainer<List<UserTransaction>> getUserTransactions(Long user_id) {
+        List<UserTransaction> listTransactions = userTransactionRepository.getUserTransactions(user_id);
+        return new ReturnContainer<>(listTransactions);
     }
 
     public UserTransaction makeNewUserTransaction(StandardUser senderUser, StandardUser receiverUser, Double amount, String remarks) {

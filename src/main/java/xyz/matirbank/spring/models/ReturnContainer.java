@@ -23,12 +23,27 @@ public class ReturnContainer<T> {
         this.data = data;
         this.error = error;
     }
+    
+    public ReturnContainer(T data) {
+        if(data.getClass().getSimpleName().contains("ErrorResponse")){
+            this.status = false;
+            this.data = null;
+            this.error = (ErrorResponse) data;
+        }else{
+            this.status = true;
+            this.data = data;
+            this.error = null;
+        }
+    }
+    
+    public ReturnContainer<T> returnData() {
+        return this;
+    }
 
     public ReturnContainer<T> returnData(T data) {
         this.status = true;
         this.data = data;
         this.error = null;
-
         return this;
     }
 

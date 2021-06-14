@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.matirbank.spring.models.Enums.ServiceCharge;
+import xyz.matirbank.spring.models.ReturnContainer;
 import xyz.matirbank.spring.models.entities.StandardUser;
 import xyz.matirbank.spring.models.entities.UserTransaction;
 import xyz.matirbank.spring.models.requests.SendMoneyRequest;
@@ -59,7 +60,7 @@ public class UserTransactionController {
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/list")
     public ResponseEntity<BaseResponse<List<UserTransaction>>> getTransactions() {
-        List<UserTransaction> userTransactions = userTransactionsService.getUserTransactions(standardUserService.getCurrentUser().getData().getId());
+        ReturnContainer<List<UserTransaction>> userTransactions = userTransactionsService.getUserTransactions(standardUserService.getCurrentUser().getData().getId());
         return new BaseResponseEntity<>().basicData(userTransactions).getEntity();
     }
 
