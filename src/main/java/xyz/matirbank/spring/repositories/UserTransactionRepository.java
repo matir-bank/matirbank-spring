@@ -14,6 +14,9 @@ public interface UserTransactionRepository extends JpaRepository<UserTransaction
     List<UserTransaction> getUserTransactions(Long user_id);
 
     @Query(value = "SELECT * FROM `user_transactions` WHERE `transaction_id` = ?1 LIMIT 0, 1", nativeQuery = true)
-    UserTransaction findTransactionByTransactionId(String transaction_id);
+    UserTransaction findUserTransactionByTransactionId(String transaction_id);
 
+    @Query(value = "SELECT * FROM `user_transactions` WHERE `hash` = ?1 LIMIT 0, 1", nativeQuery = true)
+    UserTransaction findUserTransactionByHash(String hash);
+    
 }

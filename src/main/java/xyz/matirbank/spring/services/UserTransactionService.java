@@ -31,9 +31,16 @@ public class UserTransactionService {
 
         // Generate Unique Transaction ID
         String transaction_id = Commons.getRandomAlphaNumeric(12);
-        while (userTransactionRepository.findTransactionByTransactionId(transaction_id) != null) {
+        while (userTransactionRepository.findUserTransactionByTransactionId(transaction_id) != null) {
             transaction_id = Commons.getRandomAlphaNumeric(12);
         }
+        
+        // Generate Unique Hash
+        String unique_hash = Commons.makeRandomHash();
+        while (userTransactionRepository.findUserTransactionByHash(unique_hash) != null) {
+            unique_hash = Commons.makeRandomHash();
+        }
+        userTransaction.setHash(unique_hash);
 
         userTransaction.setTransaction_id(transaction_id);
         userTransaction.setUser_from(senderUser.getId());
@@ -41,6 +48,7 @@ public class UserTransactionService {
         userTransaction.setAmount(amount);
         userTransaction.setRemarks(remarks);
         userTransaction.setTransaction_type(TransactionType.USER_TO_USER_TRANSACTION);
+        Commons.createEntity(userTransaction);
 
         userTransaction = userTransactionRepository.save(userTransaction);
         if(userTransaction != null) {
@@ -55,9 +63,16 @@ public class UserTransactionService {
 
         // Generate Unique Transaction ID
         String transaction_id = Commons.getRandomAlphaNumeric(12);
-        while (userTransactionRepository.findTransactionByTransactionId(transaction_id) != null) {
+        while (userTransactionRepository.findUserTransactionByTransactionId(transaction_id) != null) {
             transaction_id = Commons.getRandomAlphaNumeric(12);
         }
+        
+        // Generate Unique Hash
+        String unique_hash = Commons.makeRandomHash();
+        while (userTransactionRepository.findUserTransactionByHash(unique_hash) != null) {
+            unique_hash = Commons.makeRandomHash();
+        }
+        userTransaction.setHash(unique_hash);
 
         userTransaction.setTransaction_id(transaction_id);
         userTransaction.setUser_from(senderUser.getId());
@@ -65,6 +80,7 @@ public class UserTransactionService {
         userTransaction.setAmount(amount);
         userTransaction.setService_charge(serviceCharge);
         userTransaction.setTransaction_type(TransactionType.USER_TO_SERVICE_CHARGE);
+        Commons.createEntity(userTransaction);
 
         userTransaction = userTransactionRepository.save(userTransaction);
         if(userTransaction != null) {

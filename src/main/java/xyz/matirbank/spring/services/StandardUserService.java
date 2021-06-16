@@ -50,12 +50,12 @@ public class StandardUserService {
         String hashed_password = Commons.encodePassword(userRequest.getPassword());
         user.setPassword_hashed(hashed_password);
 
-        // Generate User Hash
-        String user_hash = Commons.makeRandomHash();
-        while (userRepository.findUserByHash(user_hash) != null) {
-            user_hash = Commons.makeRandomHash();
+        // Generate Unique Hash
+        String unique_hash = Commons.makeRandomHash();
+        while (userRepository.findUserByHash(unique_hash) != null) {
+            unique_hash = Commons.makeRandomHash();
         }
-        user.setHash(user_hash);
+        user.setHash(unique_hash);
 
         // Save User
         user = userRepository.save(user);
@@ -70,7 +70,7 @@ public class StandardUserService {
     public ReturnContainer<StandardUser> getUserById(long id) {
         StandardUser user = userRepository.getById(id);
         if (user != null) {
-            return new ReturnContainer(user.toScopedData());
+            return new ReturnContainer(user);
         } else {
             return new ReturnContainer(StandardErrors.E1003_USER_ACCOUNT_NOT_FOUND);
         }
@@ -79,7 +79,7 @@ public class StandardUserService {
     public ReturnContainer<StandardUser> getUserByPhone(String phone) {
         StandardUser user = userRepository.findUserByPhone(phone);
         if (user != null) {
-            return new ReturnContainer(user.toScopedData());
+            return new ReturnContainer(user);
         } else {
             return new ReturnContainer(StandardErrors.E1003_USER_ACCOUNT_NOT_FOUND);
         }
@@ -89,7 +89,7 @@ public class StandardUserService {
         StandardUser user = userRepository.findUserByHash(hash);
 
         if (user != null) {
-            return new ReturnContainer(user.toScopedData());
+            return new ReturnContainer(user);
         } else {
             return new ReturnContainer(StandardErrors.E1003_USER_ACCOUNT_NOT_FOUND);
         }
