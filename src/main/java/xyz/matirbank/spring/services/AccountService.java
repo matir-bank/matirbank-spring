@@ -6,6 +6,7 @@ import xyz.matirbank.spring.models.ReturnContainer;
 import xyz.matirbank.spring.models.entities.Account;
 import xyz.matirbank.spring.repositories.AccountRepository;
 import xyz.matirbank.spring.utils.Commons;
+import xyz.matirbank.spring.utils.StandardErrors;
 
 public class AccountService {
 
@@ -24,7 +25,7 @@ public class AccountService {
 
         // Check and Return Duplicate Account
         if (accountRepository.findAccountByUserAndType(user_id, AccountType.WALLET) != null) {
-            return new ReturnContainer<Account>().returnErrorSummary(5001, "User Wallet Account Already Exists");
+            return new ReturnContainer(StandardErrors.E3001_USER_WALLET_ACCOUNT_ALREADY_EXISTS);
         }
 
         String hash = Commons.makeRandomHash();
@@ -33,7 +34,7 @@ public class AccountService {
         }
 
         account = accountRepository.save(account);
-        return new ReturnContainer<Account>().returnData(account);
+        return new ReturnContainer(account);
     }
 
     ReturnContainer<Account> createSystemAccount(String accountHeadName) {
@@ -41,7 +42,7 @@ public class AccountService {
 
         // Check and Return Duplicate Account
         if (accountRepository.findAccountByUserAndHead(user_id, accountHeadName) != null) {
-            return new ReturnContainer<Account>().returnErrorSummary(5002, "System Account Head Already Exists");
+            return new ReturnContainer(StandardErrors.E3002_SYSTEM_ACCOUNT_ALREADY_EXISTS);
         }
 
         Account account = new Account();
@@ -56,6 +57,6 @@ public class AccountService {
         }
 
         account = accountRepository.save(account);
-        return new ReturnContainer<Account>().returnData(account);
+        return new ReturnContainer(account);
     }
 }

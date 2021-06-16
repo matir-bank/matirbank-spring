@@ -25,9 +25,9 @@ public class StandardUserService {
         String hashed_password = Commons.encodePassword(userLoginRequest.getPassword());
         StandardUser user = userRepository.loginUser(userLoginRequest.getPhone(), hashed_password);
         if (user != null) {
-            return new ReturnContainer<StandardUser>().returnData(user);
+            return new ReturnContainer(user);
         } else {
-            return new ReturnContainer<StandardUser>().returnErrorSummary(StandardErrors.E1004_INCORRECT_LOGIN_DETAILS);
+            return new ReturnContainer(StandardErrors.E1004_INCORRECT_LOGIN_DETAILS);
         }
     }
 
@@ -43,7 +43,7 @@ public class StandardUserService {
         Commons.createEntity(user);
 
         if (userRepository.findUserByPhone(userRequest.getPhone()) != null) {
-            return new ReturnContainer<StandardUser>().returnErrorSummary(StandardErrors.E1002_PHONE_NUMBER_ALREADY_EXISTS);
+            return new ReturnContainer(StandardErrors.E1002_PHONE_NUMBER_ALREADY_EXISTS);
         }
 
         // Password
@@ -61,27 +61,27 @@ public class StandardUserService {
         user = userRepository.save(user);
 
         if (user != null) {
-            return new ReturnContainer<StandardUser>().returnData(user);
+            return new ReturnContainer(user);
         } else {
-            return new ReturnContainer<StandardUser>().returnErrorSummary(StandardErrors.E1005_USER_ACCOUNT_UPDATE_FAILED);
+            return new ReturnContainer(StandardErrors.E1005_USER_ACCOUNT_UPDATE_FAILED);
         }
     }
 
     public ReturnContainer<StandardUser> getUserById(long id) {
         StandardUser user = userRepository.getById(id);
         if (user != null) {
-            return new ReturnContainer<StandardUser>().returnData(user.toScopedData());
+            return new ReturnContainer(user.toScopedData());
         } else {
-            return new ReturnContainer<StandardUser>().returnErrorSummary(StandardErrors.E1003_USER_ACCOUNT_NOT_FOUND);
+            return new ReturnContainer(StandardErrors.E1003_USER_ACCOUNT_NOT_FOUND);
         }
     }
 
     public ReturnContainer<StandardUser> getUserByPhone(String phone) {
         StandardUser user = userRepository.findUserByPhone(phone);
         if (user != null) {
-            return new ReturnContainer<StandardUser>().returnData(user.toScopedData());
+            return new ReturnContainer(user.toScopedData());
         } else {
-            return new ReturnContainer<StandardUser>().returnErrorSummary(StandardErrors.E1003_USER_ACCOUNT_NOT_FOUND);
+            return new ReturnContainer(StandardErrors.E1003_USER_ACCOUNT_NOT_FOUND);
         }
     }
 
@@ -89,9 +89,9 @@ public class StandardUserService {
         StandardUser user = userRepository.findUserByHash(hash);
 
         if (user != null) {
-            return new ReturnContainer<StandardUser>().returnData(user.toScopedData());
+            return new ReturnContainer(user.toScopedData());
         } else {
-            return new ReturnContainer<StandardUser>().returnErrorSummary(StandardErrors.E1003_USER_ACCOUNT_NOT_FOUND);
+            return new ReturnContainer(StandardErrors.E1003_USER_ACCOUNT_NOT_FOUND);
         }
     }
 
@@ -103,9 +103,9 @@ public class StandardUserService {
         }
 
         if (!hash.equals("")) {
-            return new ReturnContainer<String>().returnData(hash);
+            return new ReturnContainer(hash);
         } else {
-            return new ReturnContainer<String>().returnErrorSummary(StandardErrors.E1007_USER_AUTHENTICATION_ERROR);
+            return new ReturnContainer(StandardErrors.E1007_USER_AUTHENTICATION_ERROR);
         }
     }
 
@@ -114,12 +114,12 @@ public class StandardUserService {
         if (hashContainer.getStatus()) {
             StandardUser user = userRepository.findUserByHash(hashContainer.getData());
             if (user != null) {
-                return new ReturnContainer<Long>().returnData(user.getId());
+                return new ReturnContainer(user.getId());
             } else {
-                return new ReturnContainer<Long>().returnErrorSummary(StandardErrors.E1003_USER_ACCOUNT_NOT_FOUND);
+                return new ReturnContainer(StandardErrors.E1003_USER_ACCOUNT_NOT_FOUND);
             }
         } else {
-            return new ReturnContainer<Long>().returnErrorSummary(StandardErrors.E1007_USER_AUTHENTICATION_ERROR);
+            return new ReturnContainer(StandardErrors.E1007_USER_AUTHENTICATION_ERROR);
         }
     }
 
@@ -128,30 +128,30 @@ public class StandardUserService {
         if (hashContainer.getStatus()) {
             StandardUser user = userRepository.findUserByHash(hashContainer.getData());
             if (user != null) {
-                return new ReturnContainer<StandardUser>().returnData(user);
+                return new ReturnContainer(user);
             } else {
-                return new ReturnContainer<StandardUser>().returnErrorSummary(StandardErrors.E1003_USER_ACCOUNT_NOT_FOUND);
+                return new ReturnContainer(StandardErrors.E1003_USER_ACCOUNT_NOT_FOUND);
             }
         } else {
-            return new ReturnContainer<StandardUser>().returnErrorSummary(StandardErrors.E1007_USER_AUTHENTICATION_ERROR);
+            return new ReturnContainer(StandardErrors.E1007_USER_AUTHENTICATION_ERROR);
         }
     }
 
     public ReturnContainer<StandardUser> updateUser(StandardUser userData) {
         StandardUser user = userRepository.save(userData);
         if (user != null) {
-            return new ReturnContainer<StandardUser>().returnData(user);
+            return new ReturnContainer(user);
         } else {
-            return new ReturnContainer<StandardUser>().returnErrorSummary(StandardErrors.E1005_USER_ACCOUNT_UPDATE_FAILED);
+            return new ReturnContainer(StandardErrors.E1005_USER_ACCOUNT_UPDATE_FAILED);
         }
     }
 
     public ReturnContainer<StandardUser> getSystemUser() {
         StandardUser user = userRepository.findSystemUser();
         if (user != null) {
-            return new ReturnContainer<StandardUser>().returnData(user);
+            return new ReturnContainer(user);
         } else {
-            return new ReturnContainer<StandardUser>().returnErrorSummary(StandardErrors.E1006_SYSTEM_USER_ACCOUNT_NOT_FOUND);
+            return new ReturnContainer(StandardErrors.E1006_SYSTEM_USER_ACCOUNT_NOT_FOUND);
         }
     }
 }

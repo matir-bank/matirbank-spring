@@ -19,9 +19,9 @@ public class PhotoService {
     public ReturnContainer<Photo> savePhotoToDatabase(Photo photos) {
         Photo photo = photoRepository.save(photos);
         if (photo != null) {
-            return new ReturnContainer<Photo>().returnData(photos);
+            return new ReturnContainer(photos);
         } else {
-            return new ReturnContainer<Photo>().returnErrorSummary(StandardErrors.E1501_PHOTO_UPLOAD_FAILED);
+            return new ReturnContainer(StandardErrors.E1501_PHOTO_UPLOAD_FAILED);
         }
     }
 }

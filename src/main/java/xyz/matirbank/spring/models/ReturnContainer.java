@@ -15,8 +15,7 @@ public class ReturnContainer<T> {
     T data;
     ErrorResponse error;
 
-    public ReturnContainer() {
-    }
+    public ReturnContainer() {}
 
     public ReturnContainer(Boolean status, T data, ErrorResponse error) {
         this.status = status;
@@ -28,16 +27,6 @@ public class ReturnContainer<T> {
         this.status = true;
         this.data = data;
         this.error = null;
-        
-//        if(data.getClass().getSimpleName().contains("ErrorResponse")){
-//            this.status = false;
-//            this.data = null;
-//            this.error = (ErrorResponse) data;
-//        }else{
-//            this.status = true;
-//            this.data = data;
-//            this.error = null;
-//        }
     }
     
     public ReturnContainer(ErrorResponse errorResponse) {

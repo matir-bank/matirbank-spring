@@ -13,5 +13,8 @@ public class StandardErrors {
     public static ErrorResponse E1007_USER_AUTHENTICATION_ERROR = new ErrorResponse(1007, "User Authentication Error");
     public static ErrorResponse E1501_PHOTO_UPLOAD_FAILED = new ErrorResponse(1501, "Photo Upload Failed");
     public static ErrorResponse E2001_TRANSACTION_FAILED = new ErrorResponse(2001, "Transaction Failed");
+    public static ErrorResponse E3001_USER_WALLET_ACCOUNT_ALREADY_EXISTS = new ErrorResponse(3001, "User Wallet Account Already Exists");
+    public static ErrorResponse E3002_SYSTEM_ACCOUNT_ALREADY_EXISTS = new ErrorResponse(3002, "System Account Already Exists");
+    public static ErrorResponse E3003_UNABLE_TO_CREATE_ACCOUNT = new ErrorResponse(3003, "System Account Already Exists");
 
 }
