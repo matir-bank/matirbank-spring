@@ -35,7 +35,7 @@ public class UserTransactionController {
         StandardUser senderUser = standardUserService.getCurrentUser().getData();
         StandardUser receiverUser = standardUserService.getUserByHash(sendMoneyRequest.getUser_hash()).getData();
 
-        UserTransaction userMainTransaction = userTransactionsService
+        ReturnContainer<UserTransaction> userMainTransaction = userTransactionsService
                 .makeNewUserTransaction(
                         senderUser,
                         receiverUser,
@@ -43,7 +43,7 @@ public class UserTransactionController {
                         sendMoneyRequest.getRemarks()
                 );
 
-        UserTransaction userServiceChargeTransaction = userTransactionsService.
+        ReturnContainer<UserTransaction> userServiceChargeTransaction = userTransactionsService.
                 makeNewServiceChargeTransaction(
                         senderUser,
                         2.5D,
@@ -51,8 +51,8 @@ public class UserTransactionController {
                 );
 
         List<UserTransaction> userTransactions = new ArrayList<>();
-        userTransactions.add(userMainTransaction);
-        userTransactions.add(userServiceChargeTransaction);
+        userTransactions.add(userMainTransaction.getData());
+        userTransactions.add(userServiceChargeTransaction.getData());
 
         return new BaseResponseEntity<>().basicData(userTransactions).getEntity();
     }

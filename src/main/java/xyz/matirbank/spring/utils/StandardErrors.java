@@ -12,5 +12,6 @@ public class StandardErrors {
     public static ErrorResponse E1006_SYSTEM_USER_ACCOUNT_NOT_FOUND = new ErrorResponse(1006, "System User Account Not Found");
     public static ErrorResponse E1007_USER_AUTHENTICATION_ERROR = new ErrorResponse(1007, "User Authentication Error");
     public static ErrorResponse E1501_PHOTO_UPLOAD_FAILED = new ErrorResponse(1501, "Photo Upload Failed");
+    public static ErrorResponse E2001_TRANSACTION_FAILED = new ErrorResponse(2001, "Transaction Failed");
 
 }

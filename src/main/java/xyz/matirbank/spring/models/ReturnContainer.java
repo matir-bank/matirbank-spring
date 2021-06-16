@@ -25,15 +25,25 @@ public class ReturnContainer<T> {
     }
     
     public ReturnContainer(T data) {
-        if(data.getClass().getSimpleName().contains("ErrorResponse")){
-            this.status = false;
-            this.data = null;
-            this.error = (ErrorResponse) data;
-        }else{
-            this.status = true;
-            this.data = data;
-            this.error = null;
-        }
+        this.status = true;
+        this.data = data;
+        this.error = null;
+        
+//        if(data.getClass().getSimpleName().contains("ErrorResponse")){
+//            this.status = false;
+//            this.data = null;
+//            this.error = (ErrorResponse) data;
+//        }else{
+//            this.status = true;
+//            this.data = data;
+//            this.error = null;
+//        }
+    }
+    
+    public ReturnContainer(ErrorResponse errorResponse) {
+        this.status = false;
+        this.data = null;
+        this.error = errorResponse;
     }
     
     public ReturnContainer<T> returnData() {

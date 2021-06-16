@@ -10,6 +10,7 @@ import xyz.matirbank.spring.models.entities.StandardUser;
 import xyz.matirbank.spring.models.entities.UserTransaction;
 import xyz.matirbank.spring.repositories.UserTransactionRepository;
 import xyz.matirbank.spring.utils.Commons;
+import xyz.matirbank.spring.utils.StandardErrors;
 
 @Service
 public class UserTransactionService {
@@ -22,10 +23,10 @@ public class UserTransactionService {
 
     public ReturnContainer<List<UserTransaction>> getUserTransactions(Long user_id) {
         List<UserTransaction> listTransactions = userTransactionRepository.getUserTransactions(user_id);
-        return new ReturnContainer<>(listTransactions);
+        return new ReturnContainer(listTransactions);
     }
 
-    public UserTransaction makeNewUserTransaction(StandardUser senderUser, StandardUser receiverUser, Double amount, String remarks) {
+    public ReturnContainer<UserTransaction> makeNewUserTransaction(StandardUser senderUser, StandardUser receiverUser, Double amount, String remarks) {
         UserTransaction userTransaction = new UserTransaction();
 
         // Generate Unique Transaction ID
@@ -42,10 +43,14 @@ public class UserTransactionService {
         userTransaction.setTransaction_type(TransactionType.USER_TO_USER_TRANSACTION);
 
         userTransaction = userTransactionRepository.save(userTransaction);
-        return userTransaction;
+        if(userTransaction != null) {
+            return new ReturnContainer(userTransaction);
+        }
+        
+        return new ReturnContainer(StandardErrors.E2001_TRANSACTION_FAILED);
     }
 
-    public UserTransaction makeNewServiceChargeTransaction(StandardUser senderUser, Double amount, ServiceCharge serviceCharge) {
+    public ReturnContainer<UserTransaction> makeNewServiceChargeTransaction(StandardUser senderUser, Double amount, ServiceCharge serviceCharge) {
         UserTransaction userTransaction = new UserTransaction();
 
         // Generate Unique Transaction ID
@@ -62,7 +67,11 @@ public class UserTransactionService {
         userTransaction.setTransaction_type(TransactionType.USER_TO_SERVICE_CHARGE);
 
         userTransaction = userTransactionRepository.save(userTransaction);
-        return userTransaction;
+        if(userTransaction != null) {
+            return new ReturnContainer(userTransaction);
+        }
+        
+        return new ReturnContainer(StandardErrors.E2001_TRANSACTION_FAILED);
     }
 
 }
