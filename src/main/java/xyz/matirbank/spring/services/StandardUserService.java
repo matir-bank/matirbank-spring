@@ -64,7 +64,7 @@ public class StandardUserService {
         if (user != null) {
             return new ReturnContainer(user);
         } else {
-            return new ReturnContainer(StandardErrors.E1005_USER_ACCOUNT_UPDATE_FAILED);
+            return new ReturnContainer(StandardErrors.E1008_FAILED_TO_CREATE_USER_ACCOUNT);
         }
     }
 
@@ -148,7 +148,7 @@ public class StandardUserService {
     }
 
     public ReturnContainer<StandardUser> getSystemUser() {
-        StandardUser user = userRepository.findUserByType(UserType.ROOT);
+        StandardUser user = userRepository.findSystemUser();
         if (user != null) {
             return new ReturnContainer(user);
         } else {

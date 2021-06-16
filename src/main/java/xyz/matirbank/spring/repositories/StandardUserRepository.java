@@ -19,7 +19,8 @@ public interface StandardUserRepository extends JpaRepository<StandardUser, Long
     @Query(value = "SELECT * FROM `user` WHERE `hash` = ?1 LIMIT 0, 1", nativeQuery = true)
     StandardUser findUserByHash(String hash);
 
-    @Query(value = "SELECT * FROM `user` WHERE `user_type` = ?1 LIMIT 0, 1", nativeQuery = true)
-    StandardUser findUserByType(UserType userType);
+    //TODO: Change This
+    @Query(value = "SELECT * FROM `user` WHERE `name` = 'MatirBank' AND `phone` = '0000000000' LIMIT 0, 1", nativeQuery = true)
+    StandardUser findSystemUser();
 
 }

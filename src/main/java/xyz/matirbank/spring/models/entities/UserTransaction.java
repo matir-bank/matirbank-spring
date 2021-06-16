@@ -1,5 +1,6 @@
 package xyz.matirbank.spring.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -15,17 +16,31 @@ import xyz.matirbank.spring.models.Enums.TransactionType;
 public class UserTransaction extends BaseEntity implements Serializable {
 
     String transaction_id;
+    
+    @JsonIgnore
     Long user_from;
+    
+    @JsonIgnore
     Long user_to;
+    
+    String user_from_hash;
+    String user_to_hash;
+    
+    @JsonIgnore
     Long account_transaction_id;
+    
     Double amount;
+    
     TransactionType transaction_type;
+    
     ServiceCharge service_charge;
+    
+    @JsonIgnore
     Long transaction_reference_id;
+    
     String remarks;
 
-    public UserTransaction() {
-    }
+    public UserTransaction() {}
 
     public String getTransaction_id() {
         return transaction_id;
@@ -49,6 +64,22 @@ public class UserTransaction extends BaseEntity implements Serializable {
 
     public void setUser_to(Long user_to) {
         this.user_to = user_to;
+    }
+
+    public String getUser_from_hash() {
+        return user_from_hash;
+    }
+
+    public void setUser_from_hash(String user_from_hash) {
+        this.user_from_hash = user_from_hash;
+    }
+
+    public String getUser_to_hash() {
+        return user_to_hash;
+    }
+
+    public void setUser_to_hash(String user_to_hash) {
+        this.user_to_hash = user_to_hash;
     }
 
     public Long getAccount_transaction_id() {
@@ -98,5 +129,7 @@ public class UserTransaction extends BaseEntity implements Serializable {
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
+
+    
 
 }
