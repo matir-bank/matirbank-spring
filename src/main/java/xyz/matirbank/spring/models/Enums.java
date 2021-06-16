@@ -7,7 +7,7 @@ public class Enums {
     }
 
     public enum UserType {
-        WALLET, AGENT, MERCHANT, SYSTEM;
+        WALLET, AGENT, MERCHANT, SYSTEM, ROOT;
     }
 
     public enum IdentityType {

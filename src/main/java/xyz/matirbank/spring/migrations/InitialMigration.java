@@ -1,31 +1,39 @@
 package xyz.matirbank.spring.migrations;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
 import xyz.matirbank.spring.models.Enums.UserType;
-import xyz.matirbank.spring.models.entities.StandardUser;
 import xyz.matirbank.spring.models.requests.StandardUserSignupRequest;
 import xyz.matirbank.spring.services.StandardUserService;
 
+@Component
 public class InitialMigration {
 
     @Autowired
-    private static StandardUserService standardUserService;
+    StandardUserService standardUserService;
+    
+    @EventListener(ContextRefreshedEvent.class)
+    public void contextRefreshedEvent() {
+        migrate();
+    }
 
-    public static void migrate() {
+    public void migrate() {
         createSystemStandardUsers();
         createSystemStandardUsersAccounts();
         depositInitialFunds();
     }
 
-    private static void createSystemStandardUsers() {
-        //standardUserService.createUser(new StandardUserSignupRequest("MatirBank", "0000000000", "", UserType.SYSTEM));
+    private void createSystemStandardUsers() {
+        standardUserService.createUser(new StandardUserSignupRequest("MatirBank", "0000000000", "", UserType.ROOT));
     }
 
-    private static void createSystemStandardUsersAccounts() {
+    private void createSystemStandardUsersAccounts() {
 
     }
 
-    private static void depositInitialFunds() {
+    private void depositInitialFunds() {
 
     }
 

@@ -4,6 +4,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import xyz.matirbank.spring.models.Enums.UserType;
 import xyz.matirbank.spring.models.ReturnContainer;
 import xyz.matirbank.spring.models.entities.StandardUser;
 import xyz.matirbank.spring.models.requests.StandardUserSignupRequest;
@@ -147,7 +148,7 @@ public class StandardUserService {
     }
 
     public ReturnContainer<StandardUser> getSystemUser() {
-        StandardUser user = userRepository.findSystemUser();
+        StandardUser user = userRepository.findUserByType(UserType.ROOT);
         if (user != null) {
             return new ReturnContainer(user);
         } else {
